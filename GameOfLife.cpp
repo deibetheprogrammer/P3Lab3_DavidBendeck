@@ -131,7 +131,7 @@ void printCharMatrix(char** matriz, int sizeX,int sizeY){
 	if(matriz!=NULL){
 		for(int i = 0; i<sizeX;i++){
 			for(int j=0;j<sizeY;j++){
-				cout<<matriz[i][j]<<" ";
+				cout<<matriz[i][j]<<"  ";
 			}
 			cout<<endl;
 		}//forj
@@ -233,6 +233,7 @@ void standardFill(char**& matriz,int sizeX,int sizeY) {
 //función que simula el juego de la vida de Conway
 void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 	
+	//Me preparo para crear una nueva matriz con un borde
 	sizeX += 2;
 	sizeY += 2;
 	
@@ -245,6 +246,11 @@ void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 	//Llenar matriz
 	conwayFill(matriz,matrizConway,sizeX,sizeY);
 	
+	//Imprimir el estado inicial
+	cout << "Matriz inicial: " << "\n\n";
+	printCharMatrix(matrizConway,sizeX,sizeY);
+	cout << "\n\n";
+	
 	//Creación de matrices actual y turno siguiente
 	char** actual = NULL;
 	actual = createCharMatrix(sizeX,sizeY);
@@ -254,9 +260,138 @@ void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 	siguiente = createCharMatrix(sizeX,sizeY);
 	copyCharMatriz(matrizConway,siguiente,sizeX,sizeY);
 	
+	
 	//El juego de la vida turno por turno
-	for (int i = 0; i < turnos; i++) {
+	
+	//conteo de celulas vivas
+	int alive = 0;
+	
+	for (int t = 0; t < turnos; t++) {
 		
+		for(int i = 1; i < sizeX-1; i++) {
+			for(int j = 1; j < sizeY-1; j++) {
+				if (actual[i][j] == '*') {
+					
+					//resetear el contador
+					alive = 0;
+					
+					//verificar los alrededores
+					if (actual[i-1][j-1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i-1][j] == '*') {
+						alive++;
+					}
+					
+					if (actual[i-1][j+1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i][j-1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i][j+1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i+1][j-1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i+1][j] == '*') {
+						alive++;
+					}
+					
+					if (actual[i+1][j+1] == '*') {
+						alive++;
+					}
+					
+					//Asignar el nuevo estado de la celula
+					if(alive == 2 || alive == 3) {
+						siguiente[i][j] == '*';
+					} else {
+						siguiente[i][j] == ' ';
+					}
+					
+				} else if (actual[i][j] == ' '){
+					//resetear el contador
+					alive = 0;
+					
+					//verificar los alrededores
+					if (actual[i-1][j-1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i-1][j] == '*') {
+						alive++;
+					}
+					
+					if (actual[i-1][j+1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i][j-1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i][j+1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i+1][j-1] == '*') {
+						alive++;
+					}
+					
+					if (actual[i+1][j] == '*') {
+						alive++;
+					}
+					
+					if (actual[i+1][j+1] == '*') {
+						alive++;
+					}
+					
+					//Asignar el nuevo estado de la celula
+					if(alive == 3) {
+						siguiente[i][j] == '*';
+					} else {
+						siguiente[i][j] == ' ';
+					}
+					
+				}
+			}
+		}
+		//Imprimimos la fase actual
+		cout << "GENERACION:  " << t << "\n\n";
+		printCharMatrix(actual,sizeX,sizeY);
+		
+		//Liberamos memoria
+		freeCharMatrix(actual,sizeX);
+		
+		//llamar la creación
+		actual = createCharMatrix(sizeX,sizeY);
+		
+		//Actualizar los estados
+		copyCharMatriz(siguiente,actual,sizeX,sizeY);
+		
+		//Pedirle al usario que continue
+		cout << "\n\n"
+			 << "Ingrese un entero para continuar por favor: ";
+		int sigue;
+		cin >> sigue;
+		
+		//Verifico que no me pongan otra cosa
+		while ( !cin )
+		{
+    		cin.clear ();    // Restore input stream to working state
+    		cin.ignore ( 100 , '\n' );    // Get rid of any garbage that user might have entered
+    		cout << "Ingrese un entero por favor: ";
+    		cin >> sigue;    // After cin is restored and any garbage in the stream has been cleared, store user input in number again
+		}
+		
+		//Imprimir espacios
+		cout << "\n\n\n";
 	}
 	
 	
