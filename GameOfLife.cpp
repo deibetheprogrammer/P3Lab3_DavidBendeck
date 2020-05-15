@@ -77,6 +77,7 @@ int main(int argc, char** argv) {
 			//Llenar la matriz
 			standardFill(matriz, 20, 20);
 			
+			//cout << "Llegamos a la llamada de Conway" << endl;
 			conway(matriz, 20, 20, turnos);
 			
 			break;
@@ -232,6 +233,8 @@ void standardFill(char**& matriz,int sizeX,int sizeY) {
 
 //función que simula el juego de la vida de Conway
 void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
+	
+	printCharMatrix(matriz,sizeX,sizeY);
 	
 	//Me preparo para crear una nueva matriz con un borde
 	sizeX += 2;
@@ -408,9 +411,9 @@ void conwayFill(char**& matriz,char**& matrizConway,int sizeX,int sizeY) {
 			} else {
 				//Creacion de borde izquierdo y derecho
 				if (j == 0 || j == (sizeY-1)) {
-					matrizConway[i][j] == '#';
+					matrizConway[i][j] = '#';
 				} else { //Copiar la matriz original enmedio
-					matrizConway[i][j] = matriz[i+1][j+1];
+					matrizConway[i][j] = matriz[i-1][j-1];
 				}
 			}
 		}
