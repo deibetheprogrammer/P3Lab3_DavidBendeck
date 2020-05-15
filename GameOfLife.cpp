@@ -24,6 +24,12 @@ void standardFill(char**&,int,int);
 //función que simula el juego de la vida de Conway
 void conway(char**&,int,int,int);
 
+//función que prepara una matriz para ser utilizada por la función "conway"
+void conwayFill(char**&,char**&,int,int);
+
+//función para copiar una matriz a otra
+void copyCharMatriz(char**&,char**&,int,int);
+
 
 int main(int argc, char** argv) {
 	
@@ -223,7 +229,65 @@ void standardFill(char**& matriz,int sizeX,int sizeY) {
 	}
 }
 
+
 //función que simula el juego de la vida de Conway
 void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 	
+	sizeX += 2;
+	sizeY += 2;
+	
+	//crear matriz de chars
+	char** matrizConway = NULL;//instancia variable
+	
+	//llamar de creación
+	matrizConway = createCharMatrix(sizeX,sizeY);
+	
+	//Llenar matriz
+	conwayFill(matriz,matrizConway,sizeX,sizeY);
+	
+	//Creación de matrices actual y turno siguiente
+	char** actual = NULL;
+	actual = createCharMatrix(sizeX,sizeY);
+	copyCharMatriz(matrizConway,actual,sizeX,sizeY);
+	
+	char** siguiente = NULL;
+	siguiente = createCharMatrix(sizeX,sizeY);
+	copyCharMatriz(matrizConway,siguiente,sizeX,sizeY);
+	
+	//El juego de la vida turno por turno
+	for (int i = 0; i < turnos; i++) {
+		
+	}
+	
+	
+}
+
+//función que prepara una matriz para ser utilizada por la función "conway"
+void conwayFill(char**& matriz,char**& matrizConway,int sizeX,int sizeY) {
+	
+	for (int i = 0; i < sizeX; i++) {
+		for(int j = 0; j < sizeY; j++) {
+			//Creacion de borde superior e inferior
+			if(i == 0 || i == (sizeX-1)) {
+				matrizConway[i][j] = '#';
+			} else {
+				//Creacion de borde izquierdo y derecho
+				if (j == 0 || j == (sizeY-1)) {
+					matrizConway[i][j] == '#';
+				} else { //Copiar la matriz original enmedio
+					matrizConway[i][j] = matriz[i+1][j+1];
+				}
+			}
+		}
+	}
+}
+
+//función para copiar una matriz a otra
+void copyCharMatriz(char**& original ,char**& copia,int sizeX,int sizeY) {
+	
+	for(int i = 0; i < sizeX; i++) {
+		for(int j = 0; j < sizeY; j++) {
+			copia[i][j] = original[i][j];
+		}
+	}
 }
