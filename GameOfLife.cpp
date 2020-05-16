@@ -234,7 +234,7 @@ void standardFill(char**& matriz,int sizeX,int sizeY) {
 //función que simula el juego de la vida de Conway
 void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 	
-	printCharMatrix(matriz,sizeX,sizeY);
+	//printCharMatrix(matriz,sizeX,sizeY);
 	
 	//Me preparo para crear una nueva matriz con un borde
 	sizeX += 2;
@@ -313,9 +313,9 @@ void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 					
 					//Asignar el nuevo estado de la celula
 					if(alive == 2 || alive == 3) {
-						siguiente[i][j] == '*';
+						siguiente[i][j] = '*';
 					} else {
-						siguiente[i][j] == ' ';
+						siguiente[i][j] = ' ';
 					}
 					
 				} else if (actual[i][j] == ' '){
@@ -357,9 +357,9 @@ void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 					
 					//Asignar el nuevo estado de la celula
 					if(alive == 3) {
-						siguiente[i][j] == '*';
+						siguiente[i][j] = '*';
 					} else {
-						siguiente[i][j] == ' ';
+						siguiente[i][j] = ' ';
 					}
 					
 				}
@@ -369,12 +369,9 @@ void conway(char**& matriz,int sizeX,int sizeY,int turnos) {
 		cout << "GENERACION:  " << t << "\n\n";
 		printCharMatrix(actual,sizeX,sizeY);
 		
-		//Liberamos memoria
-		freeCharMatrix(actual,sizeX);
-		
-		//llamar la creación
-		actual = createCharMatrix(sizeX,sizeY);
-		
+		//cout << "SIGUIENTE: " << "\n\n";
+		//printCharMatrix(siguiente,sizeX,sizeY);
+
 		//Actualizar los estados
 		copyCharMatriz(siguiente,actual,sizeX,sizeY);
 		
